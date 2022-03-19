@@ -1,9 +1,11 @@
 import pyfirmata
 import time
 import json
+import os
 
 class NodeMCUFunctions(object):
     def __init__(self) -> None:
+        self.path = 'iot_scripts/nodemcu'
         self.details = self.parse_details_json()
         self.board = pyfirmata.Arduino(self.details['port'])
         print("Communication Successfully started")
@@ -12,11 +14,9 @@ class NodeMCUFunctions(object):
         }
     
     def parse_details_json(self):
-        with open('details.json') as f:
+        with open(os.path.join(self.path,'details.json')) as f:
             data = json.load(f)
-
             return data
-
 
     def show_list(self):
         return self.list.keys()

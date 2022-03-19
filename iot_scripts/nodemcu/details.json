@@ -1,5 +1,5 @@
 {
     "board" : "",
     "description" : "",
-    "port" : "'/dev/ttyUSB0'"
+    "port" : "/dev/ttyUSB0"
 }

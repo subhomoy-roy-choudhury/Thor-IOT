@@ -1,9 +1,9 @@
 import os
 import uvicorn
 from fastapi import FastAPI
-from typing import Optional
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from models import *
+from iot_scripts import NodeMCUFunctions, ArduinoFunctions
 
 app = FastAPI()
 
@@ -15,10 +15,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-class Script(BaseModel):
-    filepath: str
-    device: str
 
 @app.post("/")
 async def get_script_content(script: Script):
@@ -52,6 +48,13 @@ async def commit_script(script: Script):
     return {
         "message" : "Commit Code"
     }
+
+# Run IOT Devices
+
+@app.post("/run_firmata")
+async def run_firmata(device: str):
+    ArduinoFunctions().blink()
+    return "Successful"
 
 
 if __name__ == "__main__":
